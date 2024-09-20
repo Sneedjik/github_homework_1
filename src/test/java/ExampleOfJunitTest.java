@@ -15,11 +15,23 @@ public class ExampleOfJunitTest {
     }
 
     @Test
-    void searchOfJunitSample() {
+    void searchOfJunitSampleTest() {
         open("/selenide/selenide");
         $("#wiki-tab").click();
         $("#wiki-body").$$("ul li a").findBy(text("Soft assertions")).click();
-        $(".markdown-body").shouldHave(text("@ExtendWith"));
+        $(".markdown-body").shouldHave(text("""
+                @ExtendWith({SoftAssertsExtension.class})
+                class Tests {
+                  @Test
+                  void test() {
+                    Configuration.assertionMode = SOFT;
+                    open("page.html");
+                
+                    $("#first").should(visible).click();
+                    $("#second").should(visible).click();
+                  }
+                }
+                """));
     }
 
 }
