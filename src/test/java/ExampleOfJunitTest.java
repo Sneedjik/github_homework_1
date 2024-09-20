@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 
@@ -18,7 +19,9 @@ public class ExampleOfJunitTest {
     void searchOfJunitSampleTest() {
         open("/selenide/selenide");
         $("#wiki-tab").click();
-        $("#wiki-body").$$("ul li a").findBy(text("Soft assertions")).click();
+        $(".wiki-more-pages-link").$(byText("Show 3 more pages…")).click();
+        $("#wiki-pages-box").$$("ul li a").findBy(text("SoftAssertions")).shouldBe(visible);
+        $("#wiki-pages-box").$(byText("SoftAssertions")).click();
         $(".markdown-body").shouldHave(text("""
                 @ExtendWith({SoftAssertsExtension.class})
                 class Tests {
